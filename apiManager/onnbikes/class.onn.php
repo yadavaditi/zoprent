@@ -49,6 +49,35 @@ class class_onn
         return $result['response'];
     }
 
+
+    public function getBookings($payLoad)
+    {
+        $parameters = array (
+          'authToken' => $this->authToken,
+          'fromDate' => $payLoad['fromDate'],
+          'toDate' => $payLoad['toDate'],
+          'bikeId' => $payLoad['bikeId'],
+          'bikeStationId' => $payLoad['bikeStationId'],
+          'name' => $payLoad['name'],
+          'email' => $payLoad['email'],
+          'phoneNumber' => $payLoad['phoneNumber'],
+          'bookingType' => $payLoad['bookingType'],
+        );
+
+        
+        $parametersJSON=json_encode($parameters);
+
+
+        $result = $this->api->getBookings($parametersJSON); //makeing function call from api.onn.php
+
+        if($response=class_onn::filterResponse($result))
+        {
+            return $response;
+        }
+        return false;
+    }
+
+
     public function getAvailableBikes($payLoad)
     {
 
@@ -73,6 +102,140 @@ class class_onn
         }
         return false;
     }
+
+
+    public function reserveBike($payLoad)
+    {
+        $parameters = array (
+          'authToken' => $this->authToken,
+          'fromDate' => $payLoad['fromDate'],
+          'toDate' => $payLoad['toDate'],
+          'bikeId' => $payLoad['bikeId'],
+          'bikeStationId' => $payLoad['bikeStationId'],
+          'customerName' => $payLoad['customerName'],
+          'customerEmail' => $payLoad['customerEmail'],
+          'customerPhoneNumber' => $payLoad['customerPhoneNumber'],
+          'bookingType' => $payLoad['bookingType'],
+        );
+
+
+        $parametersJSON=json_encode($parameters);
+
+
+        $result = $this->api->reserveBike($parametersJSON); //makeing function call from api.onn.php
+
+        if($response=class_onn::filterResponse($result))
+        {
+            return $response;
+        }
+        return false;
+        
+    }
+
+
+    public function bookBike($payLoad)
+    {
+
+         $parameters = array (
+          'authToken' => $this->authToken,
+          'bookingId' => $payLoad['bookingId'],
+          'amountCollected' => $payLoad['amountCollected']
+        );
+
+        
+        $parametersJSON=json_encode($parameters);
+
+
+        $result = $this->api->bookBike($parametersJSON); //makeing function call from api.onn.php
+
+        if($response=class_onn::filterResponse($result))
+        {
+            return $response;
+        }
+        return false;
+    }
+
+
+    public function cancelBooking($payLoad)
+    {
+        $parameters = array (
+          'authToken' => $this->authToken,
+          'fromDate' => $payLoad['fromDate'],
+          'toDate' => $payLoad['toDate'],
+          'bikeId' => $payLoad['bikeId'],
+          'bikeStationId' => $payLoad['bikeStationId'],
+          'customerName' => $payLoad['customerName'],
+          'customerEmail' => $payLoad['customerEmail'],
+          'customerPhoneNumber' => $payLoad['customerPhoneNumber'],
+          'bookingType' => $payLoad['bookingType'],
+        );
+
+
+        $parametersJSON=json_encode($parameters);
+
+
+        $result = $this->api->cancelBooking($parametersJSON); //makeing function call from api.onn.php
+
+        if($response=class_onn::filterResponse($result))
+        {
+            return $response;
+        }
+        return false;
+    }
+
+
+
+/*  yet to be implimented rescheduling
+    public function checkRescheduleBooking($payLoad)
+    {
+
+        $parametersJSON=json_encode($parameters);
+
+
+        $result = $this->api->checkRescheduleBooking($parametersJSON); //makeing function call from api.onn.php
+
+        if($response=class_onn::filterResponse($result))
+        {
+            return $response;
+        }
+        return false;
+    }
+
+
+    public function reserveRescheduleBooking($payLoad)
+    {
+
+        $parametersJSON=json_encode($parameters);
+
+
+        $result = $this->api->reserveRescheduleBooking($parametersJSON); //makeing function call from api.onn.php
+
+        if($response=class_onn::filterResponse($result))
+        {
+            return $response;
+        }
+        return false;
+    }
+
+
+    public function rescheduleBooking($payLoad)
+    {
+
+        $parametersJSON=json_encode($parameters);
+
+
+        $result = $this->api->rescheduleBooking($parametersJSON); //makeing function call from api.onn.php
+
+        if($response=class_onn::filterResponse($result))
+        {
+            return $response;
+        }
+        return false;
+    }
+
+
+    */
+   
 
 
 

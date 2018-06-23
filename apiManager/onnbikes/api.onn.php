@@ -74,7 +74,7 @@ $result = CurlHelper::perform_http_request($this->httpMethod, $url, $parametersJ
 return($result);
 }
 
-
+/*  yet to be implimented rescheduling
 public function checkRescheduleBooking($parametersJSON)
 {
 $path="booking/checkRescheduleBooking";
@@ -100,10 +100,10 @@ $url=$this->host.$path;
 $result = CurlHelper::perform_http_request($this->httpMethod, $url, $parametersJSON);
 return($result);
 }
-
+*/
 }
 
-/*
+/*  testing code can be deleted
     $action = "POST";
     $url = "https://devservice.onnbikes.com/OnnBikesExternal/v1/rest/booking/getAvailableBikes";
 
