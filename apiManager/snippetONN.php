@@ -46,4 +46,46 @@ foreach( $bikeStations[0]['bikes'] as $bike)
 
 print_r($bikesArray);
 
+
+//
+session_start();
+if( isset($_SESSION['selectedBike']))
+{
+    unset($_SESSION['selectedBike']);
+}
+$_SESSION['selectedBike'] = $bikesArray['activa'][1];
+
+//next page
+
+session_start();
+if( !isset($_SESSION['selectedBike']))
+{
+    //redirect to home page
+}
+
+$onn = getAPI("onn");
+
+//$payload=array('fromdate'=>'vc',
+//                .....,
+ //               ......);
+
+$status=0;
+foreach($_SESSION['selectedBike'] as $bikeId)
+{
+    $payload['bikeId']=$bikeId;
+    $response=$onn->reserveBike($payload);
+    if($response!=false)
+    {
+        //todo do payment
+        $status=1;
+        break;
+    }
+}
+
+if($status==0)
+{
+   // display error message
+}
+
+
 ?>
