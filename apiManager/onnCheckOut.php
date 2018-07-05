@@ -1,10 +1,16 @@
 <?php
 session_start();
 include 'admin/config.php';
+include"apiManager/apiManager.php";
 date_default_timezone_set('Asia/Calcutta');
-$id=$_GET['id'];
-$ids=$_GET['first'];
-$uids=$_GET['uid'];
+//$id=$_GET['id'];
+//$ids=$_GET['first'];
+//$uids=$_GET['uid'];
+
+$id='Bikes';
+$ids='1';
+$uids='Bengaluru';
+
 //$de_code=urldecode($id);
 //$de_code_arr=explode("/",$de_code);
 $category=$id;
@@ -98,15 +104,125 @@ if($ban_img=="")
 //}
 
   
-if(isset($_POST['book_now'])){ //check if form was submitted
-  $name = $_POST['name'];
-  $email = $_POST['email'];
-  $phone = $_POST['phone'];
-  $address = $_POST['address'];
+//if(isset($_POST['book_now'])){ //check if form was submitted
+//  $name = $_POST['name'];
+//  $email = $_POST['email'];
+//  $phone = $_POST['phone'];
+//  $address = $_POST['address'];
 
-// $message = "Success! You entered: ".$name." ".$email." ".$phone." ".$address." ";
- //echo $message;
-}    
+//// $message = "Success! You entered: ".$name." ".$email." ".$phone." ".$address." ";
+// //echo $message;
+//}    
+
+function combineDateTime($date,$time)
+{
+	$gmtTimezone = new DateTimeZone("+0530");
+	$combinedDT = date('Y-m-d H:i:s', strtotime("$date $time"));
+	$myDateTime = new DateTime($combinedDT, $gmtTimezone);
+	return($myDateTime->format('Y-m-d H:i:s O'));
+}
+
+if(isset($_POST['rent_now']))//called from onnproducts page
+{
+
+
+
+	$bikeName = $_POST['name'];
+	$bikeImage = $_POST['bikeImage'];
+	$allowedDistance = $_POST['allowedDistance'];
+	//$maxSpeedLimit = $_POST['maxSpeedLimit'];
+	$securityDeposit = $_POST['securityDeposit'];
+	$tariff = $_POST['tariff'];
+	$bikeId = $_POST['bikeId'];
+	$bikeStationId = $_POST['bikeStationId'];
+
+
+	$_SESSION["bikeName"]=$bikeName;
+	$_SESSION["bikeImage"]=$bikeImage;
+	$_SESSION["allowedDistance"]=$allowedDistance;
+	//$_SESSION["maxSpeedLimit"]=$maxSpeedLimit;
+	$_SESSION["securityDeposit"]=$securityDeposit;
+	$_SESSION["tariff"]=$tariff;
+	$_SESSION["bikeId"]=$bikeId;
+	$_SESSION["bikeStationId"]=$bikeStationId;
+
+}
+
+if(isset($_POST['book_now']))//clicked on submit in same page
+{
+
+	//todo: set variables
+
+	$dateFrom = combineDateTime($_SESSION['db_f_date'],$_SESSION['from_time']);
+    $dateTo = combineDateTime($_SESSION['db_t_date'],$_SESSION['to_time']);
+
+
+    /*	"authToken": "5b1f666d0ed5422cfbabfb13",
+    "fromDate": "2018-06-20 09:00:00 +0530",
+    "toDate": "2018-06-21 09:00:00 +0530",
+    "bikeId" : "A1886",
+    "bikeStationId" : "BS000006",
+    "customerName" : "Vishwanath S K",
+    "customerEmail" : "vishwanath.sk@onnbikes.com",
+    "customerPhoneNumber" : "9008729006",
+    "bookingType" : "Pickup"*/
+	$parameters = array (
+    'fromDate' => $dateFrom,
+    'toDate' => $dateTo,
+    'bikeStationId' => $_SESSION["bikeStationId"],
+    'customerName' => "Vishwanath S K",
+    'customerEmail' => "vish@onnbikes.com",
+	'customerPhoneNumber' => "9008729006",
+    'bookingType' => "Pickup",
+  );
+
+	if($resposeReserve=reserveBike($parameters))
+	{
+		$_SESSION['reserveBookId'] = $resposeReserve['bookingId'];
+        echo $_SESSION['reserveBookId'].'<br/>';
+		//call for payment
+		//header('location: bookingsh.php?sub='.$_GET['sub'].'&uid='.$_GET['uid'].'&city='.$_GET['city'].'#pays');
+
+	}
+	else
+	{
+		//sorry bikes not available
+	}
+
+}
+
+function reserveBike($parameters)
+{
+	$onn = getAPI("onn");
+
+	foreach($_SESSION["bikeId"] as $bikeId)
+	{
+		$parameters['bikeId']=$bikeId;
+		$response=$onn->reserveBike($parameters);
+		if($response!=false)
+		{
+			return($response);
+		}
+	}
+
+	return(false);
+
+}
+
+function bookBike($parameters)//not used yet
+{
+	$onn = getAPI("onn");
+	if($response=$onn->bookBike($parameters))
+	{
+		//booking success full
+        echo "Booking Successfull";
+	}
+	else{
+		// sorry booking unsuccessfull please contact .... if money has been debited
+        echo "Booking Not Successfull";
+	}
+}
+
 $pro_name='Activa';
 $total_price=123;
 
@@ -688,25 +804,160 @@ src="https://www.facebook.com/tr?id=1945186389056283&ev=PageView
                                         <div class="form-group">
                                             <label for="input-payment-fax" class="control-label">Address</label>
                                             <textarea rows="2" class="form-control" id="address" name="address" placeholder="Address"></textarea>
-                                            <p><input type="checkbox" name="checkbox" id="checkbox" value="scheckbox" />Click Box If delevery location is diferent from billing address</p>
-                                            <textarea rows="2" class="form-control" id="paddress" name="paddress" placeholder=" Pickup Address"></textarea>
                                             <br>
                                             <label class="control-label" for="confirm_agree">
                                                 <input type="checkbox" value="1" required="" class="validate required" id="confirm_agree" name="confirm agree">
-                                                <span>I have read and agree to the <a class="agree" href="#terms" required=""><b>Terms &amp; Conditions</b></a></span>
+                                                <span>I have read and agree to the <a class="agree" href="termsAndConditions.php" required=""><b>Terms &amp; Conditions</b></a></span>
                                             </label>
                                             <div class="pull-left" style="margin-top:2%;">
                                                 <?php
                                               //  if($count>=1)
                                                 {
-                                                    echo '<input type="submit" class="btn btn-primary" id="book_now" name="book_now" value="confirm order & pay">';
+                                                    echo '<input type="submit" class="btn btn-primary" id="book_now" name="book_now" value="confirm order & pay " data-toggle="modal" data-target="#myModal">';
                                                 }
                                                // else
                                                 //{
                                                 //    echo '<input type="button" class="btn btn-primary" id="book_now" name="book_now" value="confirm order & pay" onclick="not_available();">';
                                                 //}
                                                 ?>
+                                                
+                                                  <div class="modal fade" id="myModal" role="dialog">
+                                                    <div class="modal-dialog">
+    
+                                                      <!-- Modal content-->
+                                                      <div class="modal-content">
+                                                        <div class="modal-header">
+                                                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                          <!-- <h4 class="modal-title">Modal Header</h4> -->
+                                                          <img src="logos.png" />
+                                                          <h3 style="text-align:center; font-family: ab2;font-weight:bold;">Booking Details</h3>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                          <!-- <p>Some text in the modal.</p> -->
+                
+                                                                  <!-- <div class="content-product-left  col-md-3 col-sm-8 col-xs-8"> -->
+                                                                      <h3 style="text-align:center;color:#004066;font-size:15px;font-family:ab2;font-size:20px;font-weight: bold;">
+                                                                          <?php echo $pro_name;?>
+                                                                      </h3>
 
+                                                                      <!-- <center><img src="admin/<?php //echo $image;?>" alt="Bike Image"></center>  -->
+                                                                  <!-- </div> -->
+                                                                  <!-- <div class="col-md-6" style="margin-top:2%;"> -->
+                                                                      <h5 style="font-size:15px;font-weight:bold;color:#004066;">Booking Duration</h5>
+                                                                      <!-- <p>From :<span><?php// echo $_SESSION['from_date'];?></span> To: <span><?php// echo $_SESSION['to_date'];?></span></p>-->
+                                                                      <p>
+                                                                          From :
+                                                                          <span>09/07/2018</span>
+                                                                          To:10/07/2018
+                                                                          <span></span>
+                                                                      </p>
+                                                                      <h5 style="font-size: 15px; font-weight: bold;color: #004066;">Total Amount Payable</h5>
+                                                                      <h5 style="font-size: 20px;font-weight: bold;">
+                                                                          <i class="fa fa-inr"></i>
+                                                                          <?php echo $total_price;?>
+                                                                      </h5>
+                                                                      <button id="rzp-button1" class="btn btn-primary">Pay</button>
+                                                                      OR
+                                                                      <button id="butt1" class="btn btn-primary">Skip</button>
+
+
+                                                                      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+                                                                      <script>
+
+                                                                        var options = {
+                                                                            "key": "rzp_live_yynYqAM86EDsyI",
+                                                                            "amount": "100", // 2000 paise = INR 20
+                                                                            "name": "ZopRent Pvt. Ltd.",
+                                                                            "description": "<?php echo $pro_name;?>",
+                                                                            "image": "assets/logo.png",
+                                                                          //"callback_url": 'https://www.zoprent.com/paymentAccpted.php?paymentId"+response.razorpay_payment_id',
+                                                                            "handler": function (response){
+                                                                                //alert(response.razorpay_payment_id);
+                                                                            var name = response.razorpay_payment_id;
+                                                                            //var booking = "<?php //echo $_SESSION['booking_id'];?>";
+                                                                                var booking = "ZOP123";
+                                                                            if (typeof response.razorpay_payment_id == 'undefined' ||  response.razorpay_payment_id < 1) {
+                                                                                redirect_url = "paymentCancled.php?Id="+booking;
+                                                                                 } else {
+                                                                                redirect_url = "paymentAccpted.php?Id="+booking+"&paymentId="+response.razorpay_payment_id;
+                                                                                 }
+                                                                             //"test.php?lat="+elemA+"&lon="+elemB;
+                                                                                location.href = redirect_url;
+                                                                            },
+
+                                                                            "prefill": {
+                                                                                "name": "<?php echo 'Aditi'; //echo $_POST['name'];?>",
+                                                                                "email": "<?php echo' yadav@gmail.com'; // echo $_POST['email'];?>"
+                                                                            },
+                                                                            "notes": {
+                                                                                "address": "<?php echo' adress adress adress'; //echo $_POST['address'];?>"
+                                                                            },
+                                                                            "theme": {
+                                                                                "color": "#004066"
+                                                                            },
+                                                                          "modal" : {
+                                                                               "ondismiss": function(){
+
+                                                                                 // var booking = "<?php //echo $_SESSION['booking_id'];?>";
+                                                                                   var booking = "ZOP123";
+                                                                                window.location.href="paymentCancled.php?Id="+booking;
+
+                                                                        }
+
+                                                                          }
+
+                                                                        };
+                                                                      var rzp1 = new Razorpay(options);
+
+                                                                      document.getElementById('rzp-button1').onclick = function(e){
+                                                                          rzp1.open();
+                                                                          e.preventDefault();
+                                                                      }
+                                                                                      </script>
+
+
+
+                                                                                      <script>
+                                                                      var btn = document.getElementById('butt1');
+                                                                          //var booking = "<?php //echo $_SESSION['booking_id'];?>";
+                                                                          var booking = "ZOP123";
+                                                                      btn.addEventListener('click', function() {
+                                                                        document.location.href = "paymentCancled.php?Id="+booking;
+                                                                      });
+                                                                                      </script>
+
+
+
+
+                                                                                      <script>
+                                                                      $(function () {
+                                                                              $('textarea[name="paddress"]').hide();
+
+                                                                              //show it when the checkbox is clicked
+                                                                              $('input[name="checkbox"]').on('click', function () {
+                                                                                  if ($(this).prop('checked')) {
+                                                                                      $('textarea[name="paddress"]').fadeIn();
+                                                                                  } else {
+                                                                                      $('textarea[name="paddress"]').hide();
+                                                                                  }
+                                                                              });
+                                                                          });
+                                                                      </script>
+                                                                  <!-- </div> -->
+              
+          
+                                                        </div>
+                                                       <!--  <div class="modal-footer">
+                                                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                      </div>
+                                                       -->
+                                                    </div>
+                                                  </div>
+                                                </div> 
+ 
 
                                             </div>
 
@@ -726,132 +977,7 @@ src="https://www.facebook.com/tr?id=1945186389056283&ev=PageView
                 </div>
             </form>
 					
-          <div class="remodal" data-remodal-id="pays"  style="border: 3px solid #004066;">
-					
-								  
-								  <div class="modal-body">
-								   <!--<img src="assets/logo.png"/>-->
-						 		    <img src="logos.png"/>
-									<h3 style="text-align:center; font-family: ab2;font-weight:bold;">Booking Details</h3>
-									 <a data-remodal-action="close"  class="remodal-close mys"></a>
-									<div >
-									<div class="content-product-left  col-md-3 col-sm-8 col-xs-8">
-<h3 style="text-align:center;color:#004066;font-size:15px;font-family:ab2;font-size:20px;font-weight: bold;"><?php echo $pro_name;?></h3>
-								
-									<!--<center><img src="admin/<?php //echo $image;?>" alt="Bike Image"></center> -->
-									</div>
-									<div class="col-md-6" style="margin-top:2%;">
-									         <h5 style="font-size:15px;font-weight:bold;color:#004066;">Booking Duration</h5>
-											 <p>From :<span><?php echo $_SESSION['from_date'];?></span> To: <span><?php echo $_SESSION['to_date'];?></span></p>
-											<h5 style="font-size: 15px; font-weight: bold;color: #004066;">Total Amount Payable</h5>
-											<h5 style="font-size: 20px;font-weight: bold;"><i class="fa fa-inr"></i><?php echo $total_price;?></h5>
-									<button id="rzp-button1" class="btn btn-primary">Pay</button> OR <button id="butt1" class="btn btn-primary">Skip</button>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
-<script>
-    
-var options = {
-    "key": "rzp_live_yynYqAM86EDsyI",
-    "amount": "<?php //echo $total_price;?>100", // 2000 paise = INR 20 
-    "name": "ZopRent Pvt. Ltd.",
-    "description": "<?php echo $pro_name;?>",
-    "image": "assets/logo.png",
-	//"callback_url": 'https://www.zoprent.com/paymentAccpted.php?paymentId"+response.razorpay_payment_id',
-    "handler": function (response){
-        //alert(response.razorpay_payment_id);
-		var name = response.razorpay_payment_id;
-		var booking = "<?php echo $_SESSION['booking_id'];?>";
-		
-		if (typeof response.razorpay_payment_id == 'undefined' ||  response.razorpay_payment_id < 1) {
-        redirect_url = "paymentCancled.php?Id="+booking;
-         } else {
-        redirect_url = "paymentAccpted.php?Id="+booking+"&paymentId="+response.razorpay_payment_id;
-         }
-		 //"test.php?lat="+elemA+"&lon="+elemB;
-        location.href = redirect_url;
-    },
-	
-    "prefill": {
-        "name": "<?php echo $_POST['name'];?>",
-        "email": "<?php echo $_POST['email'];?>"
-    },
-    "notes": {
-        "address": "<?php echo $_POST['address'];?>"
-    },
-    "theme": { 
-        "color": "#004066"
-    },
-	"modal" : {
-	     "ondismiss": function(){
-
-          var booking = "<?php echo $_SESSION['booking_id'];?>";
-
-        window.location.href="paymentCancled.php?Id="+booking;
-
-} 
-	    
-	}
-	
-};
-var rzp1 = new Razorpay(options);
-
-document.getElementById('rzp-button1').onclick = function(e){
-    rzp1.open();
-    e.preventDefault();
-}
-</script>
-<script>			
-var btn = document.getElementById('butt1');
-var booking = "<?php echo $_SESSION['booking_id'];?>";
-btn.addEventListener('click', function() {
-  document.location.href = "paymentCancled.php?Id="+booking;
-});
-</script>
-<script>
-$(function () {
-        $('textarea[name="paddress"]').hide();
-
-        //show it when the checkbox is clicked
-        $('input[name="checkbox"]').on('click', function () {
-            if ($(this).prop('checked')) {
-                $('textarea[name="paddress"]').fadeIn();
-            } else {
-                $('textarea[name="paddress"]').hide();
-            }
-        });
-    });
-	</script>
-											  </div>
-									</div>
-									</div>
-								  
-								</div>
-					
-
-                    
-					
-					<div class="remodal" data-remodal-id="terms"  style="border: 3px solid #004066;">
-					
-								  
-								  <div class="modal-body">
-								   <!--<img src="assets/logo.png"/>-->
-						 		    <img src="logos.png"/>
-									<h3 style="text-align:center; font-family: ab2;font-weight:bold;"><span style="color:#004066;font-family: ab2;font-weight: bold;">Terms </span>& Condition</h3>
-									 <a data-remodal-action="close"  class="remodal-close mys"></a>
-									<div id="msg" style="font-size: 13px;
-    text-align: justify;
-    line-height: 1;
-    font-family: ab3;">
-									<p style="text-align:justify;font-family:ab2;font-size:15px;"></p>
-									<?php 
-                                    $terms="term term term term term term term term term term term term";
-                                        echo $terms;
-                                        ?>
-									</div>
-									</div>
-								  
-								</div>
-						
+         
 						
 						
 						
