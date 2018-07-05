@@ -896,7 +896,7 @@ foreach ($bikesArray as $value) {
         echo '<div class="row" style="padding-top:2%;">';
       }
                             ?>
-                            <form action="onnBookings.php" method="post">
+                            <form action="onnCheckOut.php" method="post">
                                 <div class="col-md-3 col-sm-3 col-xs-12 text-center">
                                     <img src="<?php echo $value[0]['bikeImage'];?>" alt="image" height="119" width="189">
                                    <h4 style="margin-top: 10px;font-family: ab2;font-weight:bold;"><?php echo $value[0]['name'];?></h4>
