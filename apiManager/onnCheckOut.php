@@ -11,6 +11,8 @@ $id='Bikes'; //hardcoded
 $ids='1';       //hardcoded
 $uids='Bengaluru';      //hardcoded
 
+$paymentFlag=false;
+
 //$de_code=urldecode($id);
 //$de_code_arr=explode("/",$de_code);
 $category=$id;
@@ -28,91 +30,7 @@ if($ban_img=="")
 {
 	$ban_img="assets/bg2.png";
 }
-//if(!isset($_SESSION['from_date']) or !isset($_SESSION['to_date']))
-//{
-//    $_SESSION['from_date']=date("d-m-Y");
-//    $_SESSION['db_f_date']=date("Y-m-d");
     
-//    $_SESSION['to_date']=date("d-m-Y", strtotime("+1 day"));
-//    $_SESSION['db_t_date']=date("Y-m-d", strtotime("+1 day"));
-    
-    
-//    $f_date=$_SESSION['db_f_date'];
-//    $t_date=$_SESSION['db_t_date'];
-	
-//    $datetime1 = new DateTime($f_date);
-//    $datetime2 = new DateTime($t_date);
-//    $interval = $datetime1->diff($datetime2);
-//    $day=$interval->format('%a');
-//    $total_day=$day;
-//    if($total_day==0)
-//    {
-//        $total_day=1;
-//    }
-    
-//    $_SESSION['day']=$total_day;
-    
-//}
-//if(isset($_POST['search']))
-//{
-//    $from_date=$_POST['from_date'];
-//    $to_date=$_POST['to_date'];
-//    $from_time=$_POST['from_time'];
-//    $to_time=$_POST['to_time'];
-    
-//    $result1=explode("-",$from_date);
-//    $db_from_date=$result1[2]."-".$result1[1]."-".$result1[0];
-    
-//    $result2=explode("-",$to_date);
-//    $db_to_date=$result2[2]."-".$result2[1]."-".$result2[0];
-    
-    
-//    if($from_date==$to_date)
-//    {
-//        $to_date = date('d-m-Y', strtotime($to_date . " +1 day"));
-//        $db_to_date = date('Y-m-d', strtotime($db_to_date . " +1 day"));
-//    }
-    
-    
-    
-//    $_SESSION['from_date']=$from_date;
-//    $_SESSION['db_f_date']=$db_from_date;
-    
-//    $_SESSION['to_date']=$to_date;
-//    $_SESSION['db_t_date']=$db_to_date;
-    
-//    $_SESSION['from_time']=$from_time;
-//    $_SESSION['to_time']=$to_time;
-    
-//    $datetime1 = new DateTime($db_from_date." ".$from_time);
-//    $datetime2 = new DateTime($db_to_date." ".$from_time);
-//    $interval = $datetime1->diff($datetime2);
-//    $day=$interval->format('%a');
-//    $hour=$interval->format('%h');
-//    $total_day="";
-//    $total_day=$day;
-//    if($hour>=1)
-//    {
-//        $total_day=$day+1;
-//    }
-//    if($total_day==0)
-//    {
-//        $total_day=1;
-//    }
-//    $_SESSION['day']=$total_day;
-    
-//}
-
-  
-//if(isset($_POST['book_now'])){ //check if form was submitted
-//  $name = $_POST['name'];
-//  $email = $_POST['email'];
-//  $phone = $_POST['phone'];
-//  $address = $_POST['address'];
-
-//// $message = "Success! You entered: ".$name." ".$email." ".$phone." ".$address." ";
-// //echo $message;
-//}    
 
 function combineDateTime($date,$time)
 {
@@ -135,17 +53,17 @@ if(isset($_POST['rent_now']))//called from onnproducts page
 	$tariff = $_POST['tariff'];
 	$bikeId = $_POST['bikeId'];
 	$bikeStationId = $_POST['bikeStationId'];
-
-
-	$_SESSION["bikeName"]=$bikeName;
-	$_SESSION["bikeImage"]=$bikeImage;
-	$_SESSION["allowedDistance"]=$allowedDistance;
-	//$_SESSION["maxSpeedLimit"]=$maxSpeedLimit;
-	$_SESSION["securityDeposit"]=$securityDeposit;
-	$_SESSION["tariff"]=$tariff;
-	$_SESSION["bikeId"]=$bikeId;
-	$_SESSION["bikeStationId"]=$bikeStationId;
-
+	
+	$onnArray["bikeName"]=$bikeName;
+	$onnArray["bikeImage"]=$bikeImage;
+	$onnArray["allowedDistance"]=$allowedDistance;
+	//$onnArray["maxSpeedLimit"]=$maxSpeedLimit;
+	$onnArray["securityDeposit"]=$securityDeposit;
+	$onnArray["tariff"]=$tariff;
+	$onnArray["bikeId"]=$bikeId;
+	$onnArray["bikeStationId"]=$bikeStationId;
+	
+	$_SESSION["onn"]=$onnArray;
 }
 
 if(isset($_POST['book_now']))//clicked on submit in same page
@@ -169,18 +87,18 @@ if(isset($_POST['book_now']))//clicked on submit in same page
 	$parameters = array (
     'fromDate' => $dateFrom,
     'toDate' => $dateTo,
-    'bikeStationId' => $_SESSION["bikeStationId"],
-    'customerName' => "Vishwanath S K",
-    'customerEmail' => "vish@onnbikes.com",
-	'customerPhoneNumber' => "9008729006",
+    'bikeStationId' => $_SESSION["onn"]["bikeStationId"],
+    'customerName' => $_POST['name'],
+    'customerEmail' => $_POST['email'],
+	'customerPhoneNumber' => $_POST['phone'],
     'bookingType' => "Pickup",
   );
 
 	if($resposeReserve=reserveBike($parameters))
 	{
-		$_SESSION['reserveBookId'] = $resposeReserve['bookingId'];
-        echo $_SESSION['reserveBookId'].'<br/>';
-		//call for payment
+		$_SESSION['onn']['reserveBookId'] = $resposeReserve['bookingId'];
+        //echo $_SESSION['reserveBookId'].'<br/>';
+		$paymentFlag=true;
 		//header('location: bookingsh.php?sub='.$_GET['sub'].'&uid='.$_GET['uid'].'&city='.$_GET['city'].'#pays');
 
 	}
@@ -227,9 +145,9 @@ $pro_name='Activa';
 $total_price=123;
 
 ?>
-
-
-
+<!doctype html>
+<html>
+<head>
    <title>ZopRent -Self-driven Car & Motorbike Rentals-Bangalore | Goa | Mysuru | Ooty | Pondicherry | Hyderabad | Mumbai</title>
     <meta charset="utf-8">
 	<meta name="msvalidate.01" content="BB36471903B1CCE02D0D60EFC38ABBC8" />
@@ -815,16 +733,9 @@ src="https://www.facebook.com/tr?id=1945186389056283&ev=PageView
                                                 <span>I have read and agree to the <a class="agree" href="termsAndConditions.php" required=""><b>Terms &amp; Conditions</b></a></span>
                                             </label>
                                             <div class="pull-left" style="margin-top:2%;">
-                                                <?php
-                                              //  if($count>=1)
-                                                {
-                                                    echo '<input type="submit" class="btn btn-primary" id="book_now" name="book_now" value="confirm order & pay ">';
-                                                }
-                                               // else
-                                                //{
-                                                //    echo '<input type="button" class="btn btn-primary" id="book_now" name="book_now" value="confirm order & pay" onclick="not_available();">';
-                                                //}
-                                                ?>
+                                                
+												<input type="submit" class="btn btn-primary" id="book_now" name="book_now" value="confirm order & pay ">
+                                                
                                             </div>
 
 
@@ -845,7 +756,7 @@ src="https://www.facebook.com/tr?id=1945186389056283&ev=PageView
 					
         <?php 
             }
-            else
+            if($paymentFlag)
             {
             $total_price=1;
             $pro_name='Activa';
@@ -891,20 +802,23 @@ src="https://www.facebook.com/tr?id=1945186389056283&ev=PageView
 
                         var options = {
                             "key": "rzp_live_yynYqAM86EDsyI",
-                            "amount": "100", // 2000 paise = INR 20
+                            "amount": "100", // 2000 paise = INR 20 hardcoded
                             "name": "ZopRent Pvt. Ltd.",
                             "description": "<?php echo $pro_name;?>",
                             "image": "assets/logo.png",
                             //"callback_url": 'https://www.zoprent.com/paymentAccpted.php?paymentId"+response.razorpay_payment_id',
                             "handler": function (response){
                                 //alert(response.razorpay_payment_id);
+				$_SESSION["razorpay_payment_id"]=response.razorpay_payment_id;
+								
                                 var name = response.razorpay_payment_id;
                                 //var booking = "<?php //echo $_SESSION['booking_id'];?>";
-                                var booking = "ZOP123";
+                                var booking = "ZOP123"; //hardcoded
                                 if (typeof response.razorpay_payment_id == 'undefined' ||  response.razorpay_payment_id < 1) {
                                 redirect_url = "paymentCancled.php?Id="+booking;
                                  } else {
-                                redirect_url = "paymentAccpted.php?Id="+booking+"&paymentId="+response.razorpay_payment_id;
+                                //redirect_url = "paymentAccpted.php?Id="+booking+"&paymentId="+response.razorpay_payment_id;
+                                redirect_url = "paymentAccpted.php";
                                  }
                                 location.href = redirect_url;
                             },
@@ -923,9 +837,9 @@ src="https://www.facebook.com/tr?id=1945186389056283&ev=PageView
                                  "ondismiss": function(){
 
                                  // var booking = "<?php //echo $_SESSION['booking_id'];?>";
-                                     var booking = "ZOP123";
-                                window.location.href="paymentCancled.php?Id="+booking;
-
+                                     //var booking = "ZOP123";
+                                //window.location.href="paymentCancled.php?Id="+booking;
+				alert("booking is not confirmed without payment");
                         }
 
                             }
@@ -946,20 +860,7 @@ src="https://www.facebook.com/tr?id=1945186389056283&ev=PageView
                           document.location.href = "paymentCancled.php?Id="+booking;
                         });
                                         </script>
-                                        <script>
-                        $(function () {
-                                $('textarea[name="paddress"]').hide();
-
-                                //show it when the checkbox is clicked
-                                $('input[name="checkbox"]').on('click', function () {
-                                    if ($(this).prop('checked')) {
-                                        $('textarea[name="paddress"]').fadeIn();
-                                    } else {
-                                        $('textarea[name="paddress"]').hide();
-                                    }
-                                });
-                            });
-                        </script>
+                                      
                     </div>
                 </div>
                 <?php
