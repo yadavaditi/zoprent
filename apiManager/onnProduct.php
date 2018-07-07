@@ -52,9 +52,9 @@ function combineDateTime($date,$time)
 	return($myDateTime->format('Y-m-d H:i:s O'));
 }
 ?>
-
-
-
+<!doctype html>
+<html>
+<head>
 <title>ZopRent -Self-driven Car & Motorbike Rentals-Bangalore | Goa | Mysuru | Ooty | Pondicherry | Hyderabad | Mumbai</title>
 <meta charset="utf-8">
 <meta name="msvalidate.01" content="BB36471903B1CCE02D0D60EFC38ABBC8" />
@@ -839,7 +839,7 @@ fbq('track', 'PageView');
                             </div>
                        </div>
 
-                </div>
+                
                 </fieldset>
                 </form>
                 <div class="row">
@@ -896,7 +896,7 @@ foreach ($bikesArray as $value) {
         echo '<div class="row" style="padding-top:2%;">';
       }
                             ?>
-                            <form action="onnCheckOut.php" method="post">
+                            <form action="onnCheckOut1.php" method="post">
                                 <div class="col-md-3 col-sm-3 col-xs-12 text-center">
                                     <img src="<?php echo $value[0]['bikeImage'];?>" alt="image" height="119" width="189">
                                    <h4 style="margin-top: 10px;font-family: ab2;font-weight:bold;"><?php echo $value[0]['name'];?></h4>
@@ -913,7 +913,7 @@ foreach ($bikesArray as $value) {
                                     <?php
                                             foreach($value[1] as $bikeIdvar)
                                             {
-	                                            echo'<input type="hidden" name="bikeId[]" value="$bikeIdvar"/>';
+	                                            echo'<input type="hidden" name="bikeId[]" value="'.$bikeIdvar.'"/>';
                                             }
                                     ?>
 
@@ -947,7 +947,7 @@ foreach ($bikesArray as $value) {
                         </div>
 
 
-
+                        </div>
 
                     </div>
 
