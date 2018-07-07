@@ -10,7 +10,7 @@ date_default_timezone_set('Asia/Calcutta');
 $id='Bikes'; //hardcoded
 $ids='1';       //hardcoded
 $uids='Bengaluru';      //hardcoded
-
+//session_destroy();
 $paymentFlag=false;
 
 //$de_code=urldecode($id);
@@ -69,12 +69,21 @@ if(isset($_POST['rent_now']))//called from onnproducts page
 if(isset($_POST['book_now']))//clicked on submit in same page
 {
 
-	//todo: set variables
+        $customerArray['name']=$_POST['name'];
+        $customerArray['email']=$_POST['email'];
+        $customerArray['phone']=$_POST['phone'];
+        $customerArray['address']=$_POST['address'];
+
+
+            
+
 
 	$dateFrom = combineDateTime($_SESSION['db_f_date'],$_SESSION['from_time']);
     $dateTo = combineDateTime($_SESSION['db_t_date'],$_SESSION['to_time']);
 
-
+    $customerArray['dateFrom']=$dateFrom;
+    $customerArray['dateTo']=$dateTo;
+    $_SESSION["customer"]=$customerArray;
     /*	"authToken": "5b1f666d0ed5422cfbabfb13",
     "fromDate": "2018-06-20 09:00:00 +0530",
     "toDate": "2018-06-21 09:00:00 +0530",
@@ -113,7 +122,7 @@ function reserveBike($parameters)
 {
 	$onn = getAPI("onn");
 
-	foreach($_SESSION["bikeId"] as $bikeId)
+	foreach($_SESSION['onn']["bikeId"] as $bikeId)
 	{
 		$parameters['bikeId']=$bikeId;
 		$response=$onn->reserveBike($parameters);
@@ -127,19 +136,6 @@ function reserveBike($parameters)
 
 }
 
-function bookBike($parameters)//not used yet
-{
-	$onn = getAPI("onn");
-	if($response=$onn->bookBike($parameters))
-	{
-		//booking success full
-        echo "Booking Successfull";
-	}
-	else{
-		// sorry booking unsuccessfull please contact .... if money has been debited
-        echo "Booking Not Successfull";
-	}
-}
 
 $pro_name='Activa';
 $total_price=123;
@@ -809,16 +805,15 @@ src="https://www.facebook.com/tr?id=1945186389056283&ev=PageView
                             //"callback_url": 'https://www.zoprent.com/paymentAccpted.php?paymentId"+response.razorpay_payment_id',
                             "handler": function (response){
                                 //alert(response.razorpay_payment_id);
-				$_SESSION["razorpay_payment_id"]=response.razorpay_payment_id;
 								
-                                var name = response.razorpay_payment_id;
+                                var paymentId = response.razorpay_payment_id;
                                 //var booking = "<?php //echo $_SESSION['booking_id'];?>";
                                 var booking = "ZOP123"; //hardcoded
                                 if (typeof response.razorpay_payment_id == 'undefined' ||  response.razorpay_payment_id < 1) {
-                                redirect_url = "paymentCancled.php?Id="+booking;
+                                redirect_url = "paymentCancled.php?paynent_id="+booking;
                                  } else {
                                 //redirect_url = "paymentAccpted.php?Id="+booking+"&paymentId="+response.razorpay_payment_id;
-                                redirect_url = "paymentAccpted.php";
+                                    redirect_url = "onnCheckOut.svr.php?payment_id=" + paymentId;
                                  }
                                 location.href = redirect_url;
                             },
