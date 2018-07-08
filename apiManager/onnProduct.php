@@ -9,6 +9,7 @@ $ids=$_GET['first'];//city id from db
 $uids='Bengaluru';
 $category=$id;
 $category_id=$ids;
+$city='Bengaluru';
 // displaying banner immage
 $qryd=mysql_query("select * from city where city_name='$uids'");
 $ress=mysql_fetch_array($qryd);
@@ -28,8 +29,8 @@ if(!isset($_SESSION['from_date']) or !isset($_SESSION['to_date']))
     $_SESSION['db_f_date']=date("Y-m-d");
     $_SESSION['to_date']=date("d-m-Y", strtotime("+1 day"));
     $_SESSION['db_t_date']=date("Y-m-d", strtotime("+1 day"));
-	$_SESSION['to_time'] = "00:00:00";
-	$_SESSION['from_time'] = "00:00:00";
+		$_SESSION['to_time'] = "07:00:00";
+		$_SESSION['from_time'] = "07:00:00";
     $f_date=$_SESSION['db_f_date'];
     $t_date=$_SESSION['db_t_date'];
     $datetime1 = new DateTime($f_date);
@@ -55,51 +56,50 @@ function combineDateTime($date,$time)
 <!doctype html>
 <html>
 <head>
-<title>ZopRent -Self-driven Car & Motorbike Rentals-Bangalore | Goa | Mysuru | Ooty | Pondicherry | Hyderabad | Mumbai</title>
-<meta charset="utf-8">
-<meta name="msvalidate.01" content="BB36471903B1CCE02D0D60EFC38ABBC8" />
-<meta name="keywords" content="ZopRent, rent a motorbike online, rent a sports motorbike in Bangalore, rent scooty in Ooty,rent self driven car in Bangalore ">
-<meta name="keywords" content="boostrap, responsive, html5, css3, jquery, theme, multicolor, parallax, retina, business" />
-<meta name="description" content="Rent sports motorbike, motorcycle, superbikes, Bullet online in Karnataka, Self Driven car in bangalore,Ooty,Mumbai,Hyderabad,Goa,Mysore,Pondicherry">
-<meta name="author" content="Magentech">
-<meta name="robots" content="index, follow" />
+    <title>ZopRent -Self-driven Car & Motorbike Rentals-Bangalore | Goa | Mysuru | Ooty | Pondicherry | Hyderabad | Mumbai</title>
+    <meta charset="utf-8">
+    <meta name="msvalidate.01" content="BB36471903B1CCE02D0D60EFC38ABBC8" />
+    <meta name="keywords" content="ZopRent, rent a motorbike online, rent a sports motorbike in Bangalore, rent scooty in Ooty,rent self driven car in Bangalore ">
+    <meta name="keywords" content="boostrap, responsive, html5, css3, jquery, theme, multicolor, parallax, retina, business" />
+    <meta name="description" content="Rent sports motorbike, motorcycle, superbikes, Bullet online in Karnataka, Self Driven car in bangalore,Ooty,Mumbai,Hyderabad,Goa,Mysore,Pondicherry">
+    <meta name="author" content="Magentech">
+    <meta name="robots" content="index, follow" />
 
-<!-- Mobile specific metas
-============================================ -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Mobile specific metas
+    ============================================ -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<!-- Favicon
-============================================ -->
+    <!-- Favicon
+    ============================================ -->
 
-<link rel="shortcut icon" href="assets/small.png">
+    <link rel="shortcut icon" href="assets/small.png">
 
-<!-- Google web fonts
-============================================ -->
-<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700|Roboto:400,500,700,900' rel='stylesheet' type='text/css'>
+    <!-- Google web fonts
+    ============================================ -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700|Roboto:400,500,700,900' rel='stylesheet' type='text/css'>
 
-<!-- Libs CSS
-============================================ -->
-<link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
-<link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-<link href="js/datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
-<link href="js/owl-carousel/owl.carousel.css" rel="stylesheet">
-<link href="css/themecss/lib.css" rel="stylesheet">
-<link href="js/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+    <!-- Libs CSS
+    ============================================ -->
+    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
+    <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="js/datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="js/owl-carousel/owl.carousel.css" rel="stylesheet">
+    <link href="css/themecss/lib.css" rel="stylesheet">
+    <link href="js/jquery-ui/jquery-ui.min.css" rel="stylesheet">
 
-<!-- Theme CSS
-============================================ -->
-<link href="css/themecss/so_megamenu.css" rel="stylesheet">
-<link href="css/themecss/so-categories.css" rel="stylesheet">
-<link href="css/themecss/so-listing-tabs.css" rel="stylesheet">
-<!-- <link href="css/themecss/slider.css" rel="stylesheet"> -->
-<link id="color_scheme" href="css/home5.css" rel="stylesheet">
-<link id="color_scheme" href="css/home8.css" rel="stylesheet">
-<link href="css/responsive.css" rel="stylesheet">
-<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="js/jssor.slider.mini.js"></script>
+    <!-- Theme CSS
+    ============================================ -->
+    <link href="css/themecss/so_megamenu.css" rel="stylesheet">
+    <link href="css/themecss/so-categories.css" rel="stylesheet">
+    <link href="css/themecss/so-listing-tabs.css" rel="stylesheet">
+    <!-- <link href="css/themecss/slider.css" rel="stylesheet"> -->
+    <link id="color_scheme" href="css/home5.css" rel="stylesheet">
+    <link id="color_scheme" href="css/home8.css" rel="stylesheet">
+    <link href="css/responsive.css" rel="stylesheet">
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="js/jssor.slider.mini.js"></script>
 
-<style>
-
+    <style>
 	.page-main-section {
     background: url(<?php echo $ban_img?>);
     position: relative;
@@ -113,47 +113,44 @@ function combineDateTime($date,$time)
         .info_section {
             background: url(assets/b4.png) no-repeat;
         }
-
         .right_box {
             background: rgba(1, 169, 196, 0.81);
             padding: 0 20px;
         }
-
         .container-fluid {
             padding-right: 15px;
             padding-left: 15px;
             margin-right: auto;
             margin-left: auto;
         }
-
         .padding {
             padding: 80px 0;
         }
-</style>
+    </style>
 
-<style>
-    .fishes {
-        position: absolute;
-        z-index: -1;
-    }
-
-    .fish {
-        position: relative;
-        z-index: 1000;
-        opacity: 0.8;
-    }
-</style>
-<style>
-    @media (max-width: 590px) {
-        #mist {
-            top: -80px !important;
-            font-size: 10px;
-            margin-left: -30px;
+    <style>
+        .fishes {
+            position: absolute;
+            z-index: -1;
         }
-    }
-</style>
 
-<script>
+        .fish {
+            position: relative;
+            z-index: 1000;
+            opacity: 0.8;
+        }
+    </style>
+    <style>
+        @media (max-width: 590px) {
+            #mist {
+                top: -80px !important;
+                font-size: 10px;
+                margin-left: -30px;
+            }
+        }
+    </style>
+
+    <script>
         jQuery(document).ready(function($) {
             var jssor_1_SlideoTransitions = [
                 [{
@@ -331,8 +328,8 @@ function combineDateTime($date,$time)
             $(window).bind("orientationchange", ScaleSlider);
             //responsive code end
         });
-</script>
-<script>
+    </script>
+    <script>
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -343,58 +340,57 @@ s.parentNode.insertBefore(t,s)}(window,document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '1945186389056283');
 fbq('track', 'PageView');
-</script>
-<noscript>
-    <img height="1" width="1"
-         src="https://www.facebook.com/tr?id=1945186389056283&ev=PageView
+    </script>
+    <noscript>
+        <img height="1" width="1"
+             src="https://www.facebook.com/tr?id=1945186389056283&ev=PageView
 &noscript=1" />
-</noscript>
+    </noscript>
 
-<style>
-    /* jssor slider bullet navigator skin 05 css */
-    /*
+    <style>
+        /* jssor slider bullet navigator skin 05 css */
+        /*
         .jssorb05 div           (normal)
         .jssorb05 div:hover     (normal mouseover)
         .jssorb05 .av           (active)
         .jssorb05 .av:hover     (active mouseover)
         .jssorb05 .dn           (mousedown)
         */
-
-    .jssorb05 {
-        position: absolute;
-    }
-
-        .jssorb05 div,
-        .jssorb05 div:hover,
-        .jssorb05 .av {
+        .jssorb05 {
             position: absolute;
-            /* size of bullet elment */
-            width: 16px;
-            height: 16px;
-            background: url('img/b05.png') no-repeat;
-            overflow: hidden;
-            cursor: pointer;
         }
 
-        .jssorb05 div {
-            background-position: -7px -7px;
-        }
-
+            .jssorb05 div,
             .jssorb05 div:hover,
-            .jssorb05 .av:hover {
-                background-position: -37px -7px;
+            .jssorb05 .av {
+                position: absolute;
+                /* size of bullet elment */
+                width: 16px;
+                height: 16px;
+                background: url('img/b05.png') no-repeat;
+                overflow: hidden;
+                cursor: pointer;
             }
 
-        .jssorb05 .av {
-            background-position: -67px -7px;
-        }
+            .jssorb05 div {
+                background-position: -7px -7px;
+            }
 
-        .jssorb05 .dn,
-        .jssorb05 .dn:hover {
-            background-position: -97px -7px;
-        }
-    /* jssor slider arrow navigator skin 22 css */
-    /*
+                .jssorb05 div:hover,
+                .jssorb05 .av:hover {
+                    background-position: -37px -7px;
+                }
+
+            .jssorb05 .av {
+                background-position: -67px -7px;
+            }
+
+            .jssorb05 .dn,
+            .jssorb05 .dn:hover {
+                background-position: -97px -7px;
+            }
+        /* jssor slider arrow navigator skin 22 css */
+        /*
         .jssora22l                  (normal)
         .jssora22r                  (normal)
         .jssora22l:hover            (normal mouseover)
@@ -402,145 +398,142 @@ fbq('track', 'PageView');
         .jssora22l.jssora22ldn      (mousedown)
         .jssora22r.jssora22rdn      (mousedown)
         */
-
-    .jssora22l,
-    .jssora22r {
-        display: block;
-        position: absolute;
-        /* size of arrow element */
-        width: 40px;
-        height: 58px;
-        cursor: pointer;
-        background: url('img/a22.png') center center no-repeat;
-        overflow: hidden;
-    }
-
-    .jssora22l {
-        background-position: -10px -31px;
-    }
-
-    .jssora22r {
-        background-position: -70px -31px;
-    }
-
-    .jssora22l:hover {
-        background-position: -130px -31px;
-    }
-
-    .jssora22r:hover {
-        background-position: -190px -31px;
-    }
-
-    .jssora22l.jssora22ldn {
-        background-position: -250px -31px;
-    }
-
-    .jssora22r.jssora22rdn {
-        background-position: -310px -31px;
-    }
-</style>
-<style>
-    @font-face {
-        font-family: ab1;
-        src: url(fonts/ab1.ttf);
-    }
-
-    @font-face {
-        font-family: ab2;
-        src: url(fonts/ab2.ttf);
-    }
-
-    @font-face {
-        font-family: ab3;
-        src: url(fonts/ab3.ttf);
-    }
-
-    @font-face {
-        font-family: ab4;
-        src: url(fonts/ab4.ttf);
-    }
-
-    @font-face {
-        font-family: abc;
-        src: url(fonts/abc.ttf);
-    }
-</style>
-<style type="text/css">
-    .no-js #loader {
-        display: none;
-    }
-
-    .js #loader {
-        display: block;
-        position: absolute;
-        left: 100px;
-        top: 0;
-    }
-
-    .se-pre-con {
-        position: fixed;
-        left: 0px;
-        font-family: abc;
-        top: 0px;
-        width: 100%;
-        height: 100%;
-        z-index: 9999;
-        background: #fff;
-    }
-</style>
-
-<style>
-    h1 {
-        position: relative;
-        color: rgba(0, 0, 0, .3);
-    }
-
-        h1:before {
-            content: attr(data-text);
+        .jssora22l,
+        .jssora22r {
+            display: block;
             position: absolute;
+            /* size of arrow element */
+            width: 40px;
+            height: 58px;
+            cursor: pointer;
+            background: url('img/a22.png') center center no-repeat;
             overflow: hidden;
-            max-width: 12em;
-            white-space: nowrap;
-            color: #000;
-            animation: loading 8s linear;
+        }
+
+        .jssora22l {
+            background-position: -10px -31px;
+        }
+
+        .jssora22r {
+            background-position: -70px -31px;
+        }
+
+        .jssora22l:hover {
+            background-position: -130px -31px;
+        }
+
+        .jssora22r:hover {
+            background-position: -190px -31px;
+        }
+
+        .jssora22l.jssora22ldn {
+            background-position: -250px -31px;
+        }
+
+        .jssora22r.jssora22rdn {
+            background-position: -310px -31px;
+        }
+    </style>
+    <style>
+        @font-face {
+            font-family: ab1;
+            src: url(fonts/ab1.ttf);
+        }
+
+        @font-face {
+            font-family: ab2;
+            src: url(fonts/ab2.ttf);
+        }
+
+        @font-face {
+            font-family: ab3;
+            src: url(fonts/ab3.ttf);
+        }
+
+        @font-face {
+            font-family: ab4;
+            src: url(fonts/ab4.ttf);
+        }
+
+        @font-face {
             font-family: abc;
+            src: url(fonts/abc.ttf);
+        }
+    </style>
+    <style type="text/css">
+        .no-js #loader {
+            display: none;
         }
 
-    @keyframes loading {
-        0% {
-            max-width: 0;
+        .js #loader {
+            display: block;
+            position: absolute;
+            left: 100px;
+            top: 0;
         }
-    }
-</style>
-<!--Popup Start-->
-<script src="pop/jquery-loader.js"></script>
-<link rel="stylesheet" href="pop/qunit/qunit/qunit.css" media="screen">
-<script src="pop/qunit/qunit/qunit.js"></script>
-<link rel="stylesheet" href="pop/remodal.css">
-<link rel="stylesheet" href="pop/remodal-default-theme.css">
-<script src="pop/remodal.js"></script>
-<script src="popremodal_test.js"></script>
-<style>
-    .remodal-overlay.without-animation.remodal-is-opening,
-    .remodal-overlay.without-animation.remodal-is-closing,
-    .remodal.without-animation.remodal-is-opening,
-    .remodal.without-animation.remodal-is-closing,
-    .remodal-bg.without-animation.remodal-is-opening,
-    .remodal-bg.without-animation.remodal-is-closing {
-        animation: none;
-    }
-</style>
+
+        .se-pre-con {
+            position: fixed;
+            left: 0px;
+            font-family: abc;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: #fff;
+        }
+    </style>
+
+    <style>
+        h1 {
+            position: relative;
+            color: rgba(0, 0, 0, .3);
+        }
+
+            h1:before {
+                content: attr(data-text);
+                position: absolute;
+                overflow: hidden;
+                max-width: 12em;
+                white-space: nowrap;
+                color: #000;
+                animation: loading 8s linear;
+                font-family: abc;
+            }
+
+        @keyframes loading {
+            0% {
+                max-width: 0;
+            }
+        }
+    </style>
+    <!--Popup Start-->
+    <script src="pop/jquery-loader.js"></script>
+    <link rel="stylesheet" href="pop/qunit/qunit/qunit.css" media="screen">
+    <script src="pop/qunit/qunit/qunit.js"></script>
+    <link rel="stylesheet" href="pop/remodal.css">
+    <link rel="stylesheet" href="pop/remodal-default-theme.css">
+    <script src="pop/remodal.js"></script>
+    <script src="popremodal_test.js"></script>
+    <style>
+        .remodal-overlay.without-animation.remodal-is-opening,
+        .remodal-overlay.without-animation.remodal-is-closing,
+        .remodal.without-animation.remodal-is-opening,
+        .remodal.without-animation.remodal-is-closing,
+        .remodal-bg.without-animation.remodal-is-opening,
+        .remodal-bg.without-animation.remodal-is-closing {
+            animation: none;
+        }
+    </style>
 
 
-<script>
-
+    <script>
 	function change_date()
 			{
 				from_date=$("#from_date").val();
 				to_date=$("#to_date").val();
 				from_time=$("#from_time").val();
 				to_time=$("#to_time").val();
-
 				jQuery.ajax({
 						type:"POST",
 						url:"ajax.php?f=change_date",
@@ -553,14 +546,12 @@ fbq('track', 'PageView');
 						error:function (xhr, ajaxOptions, thrownError){}
 					});
 			}
-
 	function change_location(id)
 	{
 		location_user=$("#"+id).val();
 		result=id.split("_");
 		sub_id=result[1];
 		div_id=result[2];
-
 		jQuery.ajax({
 						type:"POST",
 						url:"ajax.php?f=change_location",
@@ -578,21 +569,50 @@ fbq('track', 'PageView');
 						},
 						error:function (xhr, ajaxOptions, thrownError){}
 					});
-
-
 	}
-</script>
-<style>
-
-
-
-</style>
-<!--Google Analytics Start-->
-<!--Google Analytics Start-->
-		</head>
-
+    </script>
+    <style>
+    </style>
+    <!--Google Analytics Start-->
+    <!--Google Analytics Start-->
+</head>
 
 <body class="common-home res layout-home1">
+
+    <script>
+function loadBikes()
+{
+    $("#bikes_container").html("loading bikes");
+				from_date=$("#from_date").val();
+				to_date=$("#to_date").val();
+				from_time=$("#from_time").val();
+				to_time=$("#to_time").val();
+				city="<?php echo $city;?>";
+				bikeArea=$("#bikeArea").val();
+
+				$("#bikes_container").html("loading bikes" + from_date + to_date + from_time + to_time + city + bikeArea);
+            
+if(bikeArea=="null")
+{
+
+    //$("#bikes_container").html("inside if");
+    return 0;
+	}
+				jQuery.ajax({
+						type:"POST",
+						url:"apiManager/onnbikes/ajax/bikes_container.php",
+						datatype:"text",
+						data:{from_date:from_date,to_date:to_date,from_time:from_time,to_time:to_time,city:city,bikeArea:bikeArea},
+						success:function(response)
+						{
+							$("#bikes_container").html(response);
+						},
+						error:function (xhr, ajaxOptions, thrownError){}
+					});
+}
+    </script>
+
+
     <div id="wrapper" class="wrapper-full banners-effect-7">
         <!-- Header Container  -->
         <?php include 'menu1.php';?>
@@ -722,7 +742,7 @@ fbq('track', 'PageView');
                                 <div class="col-md-1 col-sm-12">
                                 </div>
                                 <div class="col-md-2 col-sm-12">
-                                    <div class="form-group" >
+                                    <div class="form-group">
                                         <label for="input-payment-firstname" class="control-label" style="font-family: ab2;color: #606062;">To Date</label>
                                         <input type="text" class="form-control" id="to_date" placeholder="To Date" value="<?php echo $_SESSION['to_date'];?>" name="to_date" onchange="change_date();" style="width: 200px;">
                                     </div>
@@ -772,7 +792,7 @@ fbq('track', 'PageView');
                                 </div>
                                 <div class="col-md-2 col-sm-12" style="padding:20px;">
                                     <div class="form-group input-group">
-                                        <input type="submit" class="btn btn-primary" id="set_dates" name="set_dates" value="GO!!">
+                                        <input type="submit" class="btn btn-primary" id="set_dates" name="set_dates_remove" value="GO!!">
                                     </div>
                                 </div>
                             </div>
@@ -784,23 +804,14 @@ fbq('track', 'PageView');
                                 <div class="col-md-2 col-sm-12">
                                     <div class="form-group input-group">
                                         <label class="control-label" style="font-family: ab2;color: #606062;">Location: </label> <br />
-                                        <select name="bikeArea" class="form-control">
+                                        <select name="bikeArea" id="bikeArea" class="form-control" onchange="loadBikes()">
                                             <?php
    //get dates, make api call fill areas(bike stations)
-    if(isset($_POST['set_dates'])){ //check if form was submitted
         $fromDate = $_SESSION['from_date'];
         $fromTime = $_SESSION['from_time'];
 		$toDate = $_SESSION['to_date'];
 		$toTime = $_SESSION['to_time'];
-		//$city = $_POST['city'];  setting city using sessions
-	/*
-	$_SESSION['from_date']=$fromDate;
-    $_SESSION['db_f_date']=date("Y-m-d",strtotime($fromDate));
-    $_SESSION['to_date']=$toDate;
-    $_SESSION['db_t_date']=date("Y-m-d", strtotime($toDate));
-	$_SESSION['to_time'] = $toTime;
-	$_SESSION['from_time'] = $fromTime;
-	*/
+		$city = $uids;
 	$dateFrom = combineDateTime($fromDate,$fromTime);
     $dateTo = combineDateTime($toDate,$toTime);
 	$onn = getAPI('onn');
@@ -809,14 +820,15 @@ fbq('track', 'PageView');
 	  'toDate' => $dateTo,
 	  'cityLatitude' => 0,
 	  'cityLongitude' => 0,
-	  'cityName' => 'Bengaluru',
+	  'cityName' => $city,
 	);
-	$resultArray=$onn->getAvailableBikes($parameters);
-	$bikeStations = $resultArray['bikeStations'];
+	if($resultArray=$onn->getAvailableBikes($parameters))
+	{
+		$bikeStations = $resultArray['bikeStations'];
 	unset($resultArray);
-	$i=0;
+$i=0;
 	//$bikeStationCodes=array();
-	$options="";
+	$options="<option value='null'>select</option>";
 	foreach($bikeStations as $bikeStation)
 	{
 	  $options .= "<option value='".$i++."'>".$bikeStation['bikeStationArea']."</option>
@@ -825,126 +837,35 @@ fbq('track', 'PageView');
 	}
 	echo $options;
 	unset($i);
-    }
+	}
+	else{
+		//todo:something went wrong reload the page
+	}
 	//end set dates
                                             ?>
                                         </select>
                                     </div>
                                 </div>
-                           
-                            <div class="col-md-2 col-sm-12" style="padding:20px;">
-                                <div class="form-group input-group">
-                                    <input type="submit" class="btn btn-primary" id="getBikes" name="get_bikes" value="Get Bikes!!">
+
+                                <div class="col-md-2 col-sm-12" style="padding:20px;">
+                                    <div class="form-group input-group">
+                                        <input type="submit" class="btn btn-primary" id="getBikes" name="get_bikes_remove" value="Get Bikes!!">
+                                    </div>
                                 </div>
                             </div>
-                       </div>
 
-                
-                </fieldset>
-                </form>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="row" style="padding-top: 0%;">
 
-                            <?php
-if(isset($_POST['get_bikes']))
-{
-	$from_date = $_SESSION['from_date'];
-        $from_time = $_SESSION['from_time'];
-		$to_date = $_SESSION['to_date'];
-		$to_time = $_SESSION['to_time'];
-   // $city=$_POST['city'];
-        $convert=$_POST['bikeArea'];
-        $bikeStationCode= (int)$convert;
-    $dateFrom = combineDateTime($from_date,$from_time);
-    $dateTo = combineDateTime($to_date,$to_time);
-  $onn = getAPI('onn');
-   $parameters = array (
-    'fromDate' => $dateFrom,
-    'toDate' => $dateTo,
-    'cityLatitude' => 0,
-    'cityLongitude' => 0,
-    'cityName' => 'Bengaluru',
-  );
-  $resultArray=$onn->getAvailableBikes($parameters);
-  $bikeStations = $resultArray['bikeStations'];
-  //$bikeStationId = $resultArray['bikeStationId'];
-  unset($resultArray);
-  $bikesArray=array();
-  foreach( $bikeStations[$bikeStationCode]['bikes'] as $bike)//$bikeStations[0], 0 = value from selectbox option
-  {
-      if(isset($bikesArray[$bike['modelName']]))
-      {
-          array_push($bikesArray[$bike['modelName']][1],$bike['bikeId']);
-      }
-      else
-      {
-          $bikesArray[$bike['modelName']]=array(array("name"=>$bike['manufacturerName']." ".$bike['modelName'],
-                                            "bikeImage"=>$bike['bikeImage'],
-                                            "allowedDistance"=>$bike['allowedDistance'],
-                                            "maxSpeedLimit"=>$bike['maxSpeedLimit'],
-                                            "securityDeposit"=>$bike['securityDeposit'],
-                                            "tariff"=>$bike['tariff'],
-											"bikeStationId"=>$bikeStations[$bikeStationCode]['stationId']
-                                            ),array($bike['bikeId']));
-      }
-  }
-$i=1;
-foreach ($bikesArray as $value) {
-      if($i==1)
-      {
-        echo '<div class="row" style="padding-top:2%;">';
-      }
-                            ?>
-                            <form action="onnCheckOut1.php" method="post">
-                                <div class="col-md-3 col-sm-3 col-xs-12 text-center">
-                                    <img src="<?php echo $value[0]['bikeImage'];?>" alt="image" height="119" width="189">
-                                   <h4 style="margin-top: 10px;font-family: ab2;font-weight:bold;"><?php echo $value[0]['name'];?></h4>
-                                    <!--
-                                        <span style="margin-left:-20px">Mon-Thu</span><span style="margin-left:30px">Fri-Sun</span> <h4 style="margin-top: 10px;font-family: ab2;font-weight:bold;"><i class="fa fa-inr" aria-hidden="true"></i>'.$low_price.'/Day &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-inr" aria-hidden="true"> </i> '.$prices.'/Day</h4><p style="color:#004066;"><b>Onwards</b></p>
-                                    -->
-                                    <h4 style="margin-top: 10px;font-family: ab2;font-weight:bold;"><i class="fa fa-inr" aria-hidden="true"> </i> <?php echo $value[0]['tariff']; ?></h4>
-                                    <input type="hidden" name="name" value="<?php echo $value[0]['name'];?>" />
-                                    <input type="hidden" name="bikeImage" value="<?php echo $value[0]['bikeImage'];?>" />
-                                    <input type="hidden" name="allowedDistance" value="<?php echo $value[0]['allowedDistance'];?>" />
-                                    <input type="hidden" name="securityDeposit" value="<?php echo $value[0]['securityDeposit'];?>" />
-                                    <input type="hidden" name="tariff" value="<?php echo $value[0]['tariff'];?>" />
-                                    <input type="hidden" name="bikeStationId" value="<?php echo $value[0]['bikeStationId'];?>" />
-                                    <?php
-                                            foreach($value[1] as $bikeIdvar)
-                                            {
-	                                            echo'<input type="hidden" name="bikeId[]" value="'.$bikeIdvar.'"/>';
-                                            }
-                                    ?>
+                        </fieldset>
+                    </form>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row" style="padding-top: 0%;">
+                                <div id="bikes_container">
 
-                                    <div class="query-submit-button top30">
 
-                                        <!--<a href="bookings.php?sub='.$vname.'&uid='.$bmg.'&city='.$uids.'">-->
-                                        <input type="submit" value="Rent Now" name="rent_now" style="text-align:center;font-size:12px;color:#fff;font-family: ab2;border: 1px solid #004066;background: #004066;border-radius: 3px;
-									width: 50%;
-									padding: 6px 4px 6px 5px;">
-                                        <!--</a>	-->
-                                    </div>
 
                                 </div>
-                            </form>
-                            <?php
-      if($i==4)
-       {
-        echo '</div>';
-        $i=0;
-      }
-      $i++;
-}
-}
-                            ?>
-
-
-
-
-
-
-                        </div>
+                            </div>
 
 
                         </div>
