@@ -114,7 +114,7 @@ if($bookingFlag)
    mail($to,$subject,$message,$headers);
 
 //sms admin
-					$mobl1='8073951672';
+					$mobl1='8073951672'; //ranjan's number
 								$message  = "New Request\n";
 								$message .= "Name   : ".$name."\n";
 								$message .= "Email  : ".$email."\n";
